@@ -6,7 +6,6 @@ pipeline {
   stages {
     
     stage('verificando_rama') {
-      when { branch 'develop'}
       agent { node { label 'principal' } }
       steps {
         echo 'Pulling...  {env.BRANCH_NAME}'
@@ -14,7 +13,6 @@ pipeline {
     }
     
     stage("borra_todo_antes_de_empezar") {
-      when { branch 'develop'}
       agent { node { label 'principal' } }
       steps {
         sh 'docker rm -f postgres'
@@ -24,7 +22,6 @@ pipeline {
     }
     
     stage("crear_red") {
-      when { branch 'develop'}
       agent { node { label 'principal' } }
       steps {
         sh 'docker network create -d bridge alvaro-network'
@@ -32,7 +29,6 @@ pipeline {
     }
     
     stage("crear_postgres") {
-      when { branch 'develop'}
       agent { node { label 'principal' } }
       steps {
         sh 'docker run --name postgres -e POSTGRES_PASSWORD=${POSTGRES_PASSWOR_SECRET} --network alvaro-network --network-alias host-postgres -d postgres:11'
@@ -40,7 +36,6 @@ pipeline {
     }
     
     stage("crear_phppgadmin") {
-      when { branch 'develop'}
       agent { node { label 'principal' } }
       steps {
         sh 'docker run --name phppgadmin -p 80:8080 -p 443:8443 --env DATABASE_HOST=host-postgres --network alvaro-network --network-alias host-phppgadmin -d bitnami/phppgadmin:7.13.0'
@@ -48,7 +43,6 @@ pipeline {
     }
     
     stage("crear_bd_dvdrental") {
-      when { branch 'develop'}
       agent { node { label 'principal' } }
       steps {
         sh 'docker exec postgres psql -U postgres -c "CREATE DATABASE dvdrental"'
@@ -56,7 +50,6 @@ pipeline {
     }
     
     stage("descarga_y_extrae_db") {
-      when { branch 'develop'}
       agent { node { label 'principal' } }
       steps {
         sh 'curl -O https://www.postgresqltutorial.com/wp-content/uploads/2019/05/dvdrental.zip'
@@ -65,7 +58,6 @@ pipeline {
     }
     
     stage("copia_e_importa_db") {
-      when { branch 'develop'}
       agent { node { label 'principal' } }
       steps {
         sh 'docker cp dvdrental.tar postgres:/var/lib/postgresql/data'
@@ -76,7 +68,6 @@ pipeline {
 // Esta parte se ejecutara en AWS
     
     stage('verificando_rama_aws') {
-      when { branch 'deploy'}
       agent { node { label 'aws_node' } }
       steps {
         echo 'Pulling...  {env.BRANCH_NAME}'
@@ -84,7 +75,6 @@ pipeline {
     }
     
     stage("borra_todo_antes_de_empezar_aws") {
-      when { branch 'deploy'}
       agent { node { label 'aws_node' } }
       steps {
         sh 'docker rm -f postgres'
@@ -94,7 +84,6 @@ pipeline {
     }
     
     stage("crear_red_aws") {
-      when { branch 'deploy'}
       agent { node { label 'aws_node' } }
       steps {
         sh 'docker network create -d bridge alvaro-network'
@@ -102,7 +91,6 @@ pipeline {
     }
     
     stage("crear_postgres_aws") {
-      when { branch 'deploy'}
       agent { node { label 'aws_node' } }
       steps {
         sh 'docker run --name postgres -e POSTGRES_PASSWORD=${POSTGRES_PASSWOR_SECRET} --network alvaro-network --network-alias host-postgres -d postgres:11'
@@ -110,7 +98,6 @@ pipeline {
     }
     
     stage("crear_phppgadmin_aws") {
-      when { branch 'deploy'}
       agent { node { label 'aws_node' } }
       steps {
         sh 'docker run --name phppgadmin -p 80:8080 -p 443:8443 --env DATABASE_HOST=host-postgres --network alvaro-network --network-alias host-phppgadmin -d bitnami/phppgadmin:7.13.0'
@@ -118,7 +105,6 @@ pipeline {
     }
     
     stage("crear_bd_dvdrental_aws") {
-      when { branch 'deploy'}
       agent { node { label 'aws_node' } }
       steps {
         sh 'docker exec postgres psql -U postgres -c "CREATE DATABASE dvdrental"'
@@ -126,7 +112,6 @@ pipeline {
     }
     
     stage("descarga_y_extrae_db_aws") {
-      when { branch 'deploy'}
       agent { node { label 'aws_node' } }
       steps {
         sh 'curl -O https://www.postgresqltutorial.com/wp-content/uploads/2019/05/dvdrental.zip'
@@ -135,7 +120,6 @@ pipeline {
     }
     
     stage("copia_e_importa_db_aws") {
-      when { branch 'deploy'}
       agent { node { label 'aws_node' } }
       steps {
         sh 'docker cp dvdrental.tar postgres:/var/lib/postgresql/data'
