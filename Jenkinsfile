@@ -63,7 +63,6 @@ pipeline {
         sh 'docker exec postgres pg_restore -U postgres -d dvdrental /var/lib/postgresql/data/dvdrental.tar'
       }
     }
-  }
 
 // --------------------------------------------------------------------------
     
@@ -125,6 +124,6 @@ pipeline {
         sh 'docker cp dvdrental.tar postgres:/var/lib/postgresql/data'
         sh 'docker exec postgres pg_restore -U postgres -d dvdrental /var/lib/postgresql/data/dvdrental.tar'
       }
-    }
   }
+ }
 }
