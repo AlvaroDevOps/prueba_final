@@ -5,7 +5,7 @@ pipeline {
   }
   stages {
     
-    stage('verificando_rama') {
+    stage('verificando_rama_aws') {
       agent {
             node {
                   label 'aws_node'
@@ -16,7 +16,7 @@ pipeline {
       }
     }
     
-    stage("borra_todo_antes_de_empezar") {
+    stage("borra_todo_antes_de_empezar_aws") {
       agent {
             node {
                   label 'aws_node'
@@ -29,7 +29,7 @@ pipeline {
       }
     }
     
-    stage("crear_red") {
+    stage("crear_red_aws") {
       agent {
             node {
                   label 'aws_node'
@@ -40,7 +40,7 @@ pipeline {
       }
     }
     
-    stage("crear_postgres") {
+    stage("crear_postgres_aws") {
       agent {
             node {
                   label 'aws_node'
@@ -51,7 +51,7 @@ pipeline {
       }
     }
     
-    stage("crear_phppgadmin") {
+    stage("crear_phppgadmin_aws") {
       agent {
             node {
                   label 'aws_node'
@@ -62,7 +62,7 @@ pipeline {
       }
     }
     
-    stage("crear_bd_dvdrental") {
+    stage("crear_bd_dvdrental_aws") {
       agent {
             node {
                   label 'aws_node'
@@ -73,7 +73,7 @@ pipeline {
       }
     }
     
-    stage("descarga_y_extrae_db") {
+    stage("descarga_y_extrae_db_aws") {
       agent {
             node {
                   label 'aws_node'
@@ -85,7 +85,7 @@ pipeline {
       }
     }
     
-    stage("copia_e_importa_db") {
+    stage("copia_e_importa_db_aws") {
       agent {
             node {
                   label 'aws_node'
@@ -142,7 +142,5 @@ pipeline {
         sh 'docker exec postgres pg_restore -U postgres -d dvdrental /var/lib/postgresql/data/dvdrental.tar'
       }
     }
-
-
   }
 }
