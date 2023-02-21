@@ -1,3 +1,4 @@
+// Este pipeline ejecuta tanto en local como en AWS
 pipeline {
   agent any
   environment {
