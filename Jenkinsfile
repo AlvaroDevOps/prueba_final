@@ -15,13 +15,13 @@ pipeline {
       }
     }
     
-    // stage("borra_todo_antes_de_empezar") {
-    //   steps {
-    //     sh 'docker rm -f postgres'
-    //     sh 'docker rm -f phppgadmin'
-    //     sh 'docker network rm alvaro-network'
-    //   }
-    // }
+    stage("borra_todo_antes_de_empezar") {
+      steps {
+        sh 'docker rm -f postgres'
+        sh 'docker rm -f phppgadmin'
+        sh 'docker network rm alvaro-network'
+      }
+    }
     
     stage("crear_red") {
       steps {
