@@ -1,5 +1,5 @@
 pipeline {
-  agent any
+  agent {label 'principal'}
   environment {
       POSTGRES_PASSWOR_SECRET = credentials('POSTGRES_PASSWOR_ID')
   }
